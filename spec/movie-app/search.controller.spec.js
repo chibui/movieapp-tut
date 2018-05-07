@@ -1,25 +1,24 @@
 describe('Search Conroller', function () {
-    var $ctrl = this,
-        $location,
-        $controller;
+    var $scope,
+        $location;
 
     beforeEach(module('movieApp'));
 
     beforeEach(inject(function (_$controller_, _$location_) {
-        $controller = _$controller_;
+        $scope = {};
         $location = _$location_;
+        _$controller_('SearchController', { $scope: $scope, $location: $location });
     }));
 
     it('should redirect to the query results page for non-empty query', function () {
-        $ctrl = $controller('SearchController', { $location: $location }, { query: 'star wars' });
-        $ctrl.search();
-
+        $scope.query = 'star wars';
+        $scope.search();
         expect($location.url()).toBe('/results?q=star%20wars');
     });
 
     it('should not redirect to query results for empty query', function () {
-        $ctrl = $controller('SearchController', { $location: $location }, { query: '' });
-        $ctrl.search();
+        $scope.query = '';
+        $scope.search();
 
         expect($location.url()).toBe('');
     });

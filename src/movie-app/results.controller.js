@@ -3,17 +3,16 @@
 
     angular
         .module('movieApp')
-        .controller('ResultsController', function ($location, omdbApi) {
-            var ctrl = this;
+        .controller('ResultsController', function ($scope, $location, omdbApi) {
 
-            ctrl.query = $location.search().q;
+            $scope.query = $location.search().q;
 
-            omdbApi.search(ctrl.query)
+            omdbApi.search($scope.query)
                 .then(function (results) {
-                    ctrl.results = results.Search;
+                    $scope.results = results.Search;
                 })
                 .catch(function (error) {
-                    ctrl.errorMessage = 'Something went wrong!';
+                    $scope.errorMessage = 'Something went wrong!';
                 });
         }) ;
 })();

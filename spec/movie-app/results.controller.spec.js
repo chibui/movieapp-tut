@@ -1,6 +1,6 @@
 describe('Results Controller', function () {
-    var $ctrl = this,
-        $controller,
+    var $controller,
+        $scope,
         $q,
         $rootScope,
         omdbApi,
@@ -34,6 +34,7 @@ describe('Results Controller', function () {
 
     beforeEach(inject(function (_$controller_, _$q_, _$rootScope_, _$location_, _omdbApi_) {
         $controller = _$controller_;
+        $scope = {};
         $q = _$q_;
         $rootScope = _$rootScope_;
         $location = _$location_;
@@ -48,13 +49,12 @@ describe('Results Controller', function () {
         });
 
         $location.search('q', 'star wars');
-
-        $ctrl = $controller('ResultsController', {});
+        $controller('ResultsController', { $scope: $scope, });
         $rootScope.$apply();
 
-        expect($ctrl.results[0].Title).toBe(results.Search[0].Title);
-        expect($ctrl.results[1].Title).toBe(results.Search[1].Title);
-        expect($ctrl.results[2].Title).toBe(results.Search[2].Title);
+        expect($scope.results[0].Title).toBe(results.Search[0].Title);
+        expect($scope.results[1].Title).toBe(results.Search[1].Title);
+        expect($scope.results[2].Title).toBe(results.Search[2].Title);
         expect(omdbApi.search).toHaveBeenCalledWith('star wars');
     });
 
@@ -66,9 +66,9 @@ describe('Results Controller', function () {
         });
 
         $location.search('q', 'star wars');
-        $ctrl = $controller('ResultsController', {});
+        $controller('ResultsController', { $scope: $scope});
         $rootScope.$apply();
 
-        expect($ctrl.errorMessage).toBe('Something went wrong!');
+        expect($scope.errorMessage).toBe('Something went wrong!');
     });
 });
