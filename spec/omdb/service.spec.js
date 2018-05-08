@@ -17,7 +17,7 @@ describe('omdb service', function () {
     it('should return search movie data', function () {
         var response;
 
-        $httpBackend.when('GET', 'http://www.omdbapi.com/?v=1&s=star%20wars&apikey=bd925466')
+        $httpBackend.when('GET', 'http://www.omdbapi.com/?v=1&apikey=bd925466&s=star%20wars')
             .respond(200, movieData);
 
         omdbApi.search('star wars')
@@ -33,7 +33,7 @@ describe('omdb service', function () {
     it('should handle errors', function () {
         var response;
 
-        $httpBackend.when('GET', 'http://www.omdbapi.com/?v=1&i=tt0076759&apikey=bd925466')
+        $httpBackend.when('GET', 'http://www.omdbapi.com/?v=1&apikey=bd925466&i=tt0076759')
             .respond(500);
 
         omdbApi.find('tt0076759')
@@ -52,7 +52,7 @@ describe('omdb service', function () {
     it('should return movie data by id', function () {
         var response;
 
-        $httpBackend.expect('GET', 'http://www.omdbapi.com/?v=1&i=tt0076759&apikey=bd925466')
+        $httpBackend.expect('GET', 'http://www.omdbapi.com/?v=1&apikey=bd925466&i=tt0076759')
             .respond(200, movieDataById);
 
         omdbApi.find('tt0076759')

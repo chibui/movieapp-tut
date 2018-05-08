@@ -5,8 +5,7 @@
         .module('omdb', [])
         .factory('omdbApi', function ($http, $q) {
             var service = {},
-                baseUrl = 'http://www.omdbapi.com/?v=1&',
-                apiKey = '&apikey=bd925466';
+                baseUrl = 'http://www.omdbapi.com/?v=1&apikey=bd925466&';
 
             function httpPromise(url) {
                 var deferred = $q.defer();
@@ -22,11 +21,11 @@
             }
 
             service.search = function (query) {
-                return httpPromise(baseUrl + 's=' + encodeURIComponent(query) + apiKey);
+                return httpPromise(baseUrl + 's=' + encodeURIComponent(query));
             };
 
             service.find = function (id) {
-                return httpPromise(baseUrl + 'i=' + id + apiKey);
+                return httpPromise(baseUrl + 'i=' + id);
             };
 
             return service;

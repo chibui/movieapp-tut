@@ -1,10 +1,4 @@
 describe('Results Controller', function () {
-    var $controller,
-        $scope,
-        $q,
-        $rootScope,
-        omdbApi,
-        $location;
 
     var results = {
         "Search": [{
@@ -28,28 +22,34 @@ describe('Results Controller', function () {
         }]
     };
 
+    var $controller,
+        $location,
+        $q,
+        $rootScope,
+        $scope,
+        omdbApi;
 
     beforeEach(module('omdb'));
     beforeEach(module('movieApp'));
 
-    beforeEach(inject(function (_$controller_, _$q_, _$rootScope_, _$location_, _omdbApi_) {
+    beforeEach(inject(function (_$controller_, _$location_, _$q_, _$rootScope_,  _omdbApi_) {
         $controller = _$controller_;
         $scope = {};
+        $location = _$location_;
         $q = _$q_;
         $rootScope = _$rootScope_;
-        $location = _$location_;
         omdbApi = _omdbApi_;
     }));
 
     it('should load search results', function () {
-        spyOn(omdbApi, 'search').and.callFake(function () {
+        spyOn(omdbApi, 'search').and.callFake(function() {
             var deferred = $q.defer();
             deferred.resolve(results);
             return deferred.promise;
         });
 
         $location.search('q', 'star wars');
-        $controller('ResultsController', { $scope: $scope, });
+        $controller('ResultsController', { $scope: $scope });
         $rootScope.$apply();
 
         expect($scope.results[0].Title).toBe(results.Search[0].Title);
