@@ -6,7 +6,7 @@
         .factory('PopularMovies', function ($resource) {
             var token = 'teddyBear';
 
-            return $resource('popular/:movieId/?apikey=bd925466', { movieId: '@id' }, {
+            return $resource('popular/:movieId/', { movieId: '@id' }, {
                 get: {
                     method: 'GET',
                     headers: {

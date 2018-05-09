@@ -3,7 +3,7 @@
 
     angular
         .module('movieApp')
-        .controller('HomeController', function ($scope, $interval, omdbApi, PopularMovies) {
+        .controller('HomeController', function ($scope, $interval, $exceptionHandler, omdbApi, PopularMovies) {
             var results = [],
                 index = 0,
                 findMovie = function(id) {
@@ -11,11 +11,14 @@
                         .then(function (data) {
                             $scope.result = data;
                         })
+                        .catch(function (error) {
+                            $exceptionHandler(error);
+                        })
                 };
 
-            // PopularMovies.get()
-            //     .then(function (data) {
-                    var data = ["tt0076759", "tt0080684", "tt0086190"];
+            PopularMovies.get()
+                .then(function (data) {
+                    // var data = ["tt0076759", "tt0080684", "tt0086190"];
                     results = data;
                     findMovie(results[0]);
 
@@ -24,7 +27,7 @@
                         findMovie(results[index % results.length]);
                     }, 5000);
 
-                // });
+                });
 
 
 

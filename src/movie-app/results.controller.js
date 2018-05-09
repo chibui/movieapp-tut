@@ -3,7 +3,7 @@
 
     angular
         .module('movieApp')
-        .controller('ResultsController', function ($scope, $location, omdbApi) {
+        .controller('ResultsController', function ($exceptionHandler, $scope, $location, omdbApi) {
 
             $scope.query = $location.search().q;
 
@@ -12,7 +12,7 @@
                     $scope.results = results.Search;
                 })
                 .catch(function (error) {
-                    $scope.errorMessage = 'Something went wrong!';
+                    $exceptionHandler(error);
                 });
 
             $scope.expand = function expand(index, id) {
