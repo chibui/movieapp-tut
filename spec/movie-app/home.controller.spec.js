@@ -68,10 +68,8 @@ describe('Home Controller', function () {
     }));
 
     it('should rotate movies every 5 seconds', function () {
-        spyOn(PopularMovies, 'get').and.callFake(function () {
-            var deferred = $q.defer();
-            deferred.resolve(["tt0076759", "tt0080684", "tt0086190"]);
-            return deferred.promise;
+        spyOn(PopularMovies, 'query').and.callFake(function (callback) {
+            callback(["tt0076759", "tt0080684", "tt0086190"]);
         });
 
         $controller('HomeController',{
@@ -89,22 +87,11 @@ describe('Home Controller', function () {
         expect($scope.result.Title).toBe(results[2].Title);
         $interval.flush(5000);
         expect($scope.result.Title).toBe(results[0].Title);
-
-        // $log.assertEmpty();
-        expect($log.log.logs[0]).toEqual(['standard log']);
-        console.log(angular.mock.dump($log.info.logs));
-        console.log(angular.mock.dump($log.error.logs));
-        console.log(angular.mock.dump($log.warn.logs));
-        console.log(angular.mock.dump($log.debug.logs));
-
-
     });
 
     it('should handle errors', function () {
-        spyOn(PopularMovies, 'get').and.callFake(function () {
-            var deferred = $q.defer();
-            deferred.resolve(["tt0076759", "tt0080684", "tt0086190", "ttError"]);
-            return deferred.promise;
+        spyOn(PopularMovies, 'query').and.callFake(function (callback) {
+           callback(["tt0076759", "tt0080684", "tt0086190", "ttError"]);
         });
 
         $controller('HomeController',{

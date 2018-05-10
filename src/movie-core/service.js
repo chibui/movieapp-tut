@@ -17,7 +17,8 @@
                     method: 'GET',
                     headers: {
                         'authToken': token
-                    }
+                    },
+                    isArray: true
                 },
                 remove: {
                     method: 'DELETE',
