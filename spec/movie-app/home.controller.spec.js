@@ -21,12 +21,17 @@ describe('Home Controller', function () {
         $rootScope,
         omdbApi,
         PopularMovies,
-        $exceptionHandler;
+        $exceptionHandler,
+        $log;
 
     beforeEach(module('movieApp'));
 
     beforeEach(module(function ($exceptionHandlerProvider) {
         $exceptionHandlerProvider.mode('log');
+    }));
+
+    beforeEach(module(function ($logProvider) {
+        $logProvider.debugEnabled(true);
     }));
 
     beforeEach(inject(function (_$q_, _omdbApi_) {
@@ -50,7 +55,7 @@ describe('Home Controller', function () {
         })
     }));
 
-    beforeEach(inject(function (_$controller_, _$q_, _$exceptionHandler_, _$interval_, _$rootScope_, _omdbApi_, _PopularMovies_) {
+    beforeEach(inject(function (_$controller_, _$q_, _$exceptionHandler_, _$log_, _$interval_, _$rootScope_, _omdbApi_, _PopularMovies_) {
         $scope = {};
         $exceptionHandler = _$exceptionHandler_;
         $interval = _$interval_;
@@ -59,6 +64,7 @@ describe('Home Controller', function () {
         $controller = _$controller_;
         PopularMovies = _PopularMovies_;
         $rootScope = _$rootScope_;
+        $log = _$log_;
     }));
 
     it('should rotate movies every 5 seconds', function () {
@@ -83,6 +89,15 @@ describe('Home Controller', function () {
         expect($scope.result.Title).toBe(results[2].Title);
         $interval.flush(5000);
         expect($scope.result.Title).toBe(results[0].Title);
+
+        // $log.assertEmpty();
+        expect($log.log.logs[0]).toEqual(['standard log']);
+        console.log(angular.mock.dump($log.info.logs));
+        console.log(angular.mock.dump($log.error.logs));
+        console.log(angular.mock.dump($log.warn.logs));
+        console.log(angular.mock.dump($log.debug.logs));
+
+
     });
 
     it('should handle errors', function () {
